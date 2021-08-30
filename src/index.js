@@ -9,7 +9,7 @@ import resize from './Resize.js';
 import scene from './Scene.js';
 
 scene.add(box)
-camera.position.set(0, 2, 3)
+camera.position.set(0, 3, -3)
 camera.lookAt(box.position)
 scene.add(light)
 resize.start(renderer)

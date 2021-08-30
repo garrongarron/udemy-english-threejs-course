@@ -7,7 +7,7 @@ class CameraController {
     }
     run() {
         camera.position.x = this.player.mesh.position.x
-        camera.position.z = this.player.mesh.position.z - 3
+        camera.position.z = this.player.mesh.position.z - 5
         this.ratget.set(this.player.mesh.position.x, this.player.mesh.position.y + 1, this.player.mesh.position.z)
         camera.lookAt(this.ratget)
     }

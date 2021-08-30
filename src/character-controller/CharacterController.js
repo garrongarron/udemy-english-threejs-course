@@ -4,6 +4,7 @@ import DisplacementController from "./DisplacementController.js"
 import InputController from "./InputController.js"
 import AnimationController from "./AnimationController.js"
 import RotationController from "./RotationController.js"
+import CollisionController from "./CollisionController.js"
 
 class CharacterController {
     constructor(mesh) {
@@ -15,6 +16,7 @@ class CharacterController {
         this.components.push(new DisplacementController())
         this.components.push(new RotationController())
         this.components.push(new CameraController())
+        this.components.push(new CollisionController())
     }
     run() {
         if (!this.flag) return

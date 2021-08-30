@@ -13,7 +13,7 @@ class DisplacementController {
         const delta = this.clock.getDelta();
         if (this.player.x == 0 && this.player.y == 0)
             this.timer = new Date().getTime()
-        if (this.player.animator.inProgress) {
+        if (this.player.isJumping) {
             this.timer = new Date().getTime()
             return
         }

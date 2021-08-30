@@ -7,12 +7,16 @@ class AnimationController {
     setPlayer(player) {
         this.player = player
         this.animatorAdapter = new AnimatorModeAdapter(this.player.mesh, this.player.mesh.modes)
-        this.player.animator = this.animatorAdapter.animator
+        this.player.isJumping = false
     }
     run() {
+        if(!this.animatorAdapter.animator.inProgress){
+            this.player.isJumping = false
+        }
         if (keyListener.isPressed(32)) {
             this.animatorAdapter.setMode('normal')
             this.animatorAdapter.run('jump')
+            this.player.isJumping = true
         } else {
             if (this.player.x != 0 || this.player.y != 0) this.animatorAdapter.run('ahead')
             if (this.player.x == 0 && this.player.y == 0) this.animatorAdapter.run('idle')
