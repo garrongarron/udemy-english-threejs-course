@@ -26,12 +26,12 @@ Xbot.then(mesh => {
     mesh.modes = Xbot.modes
     characterController = new CharacterController(mesh)
     characterController.start()
-    characterController.collision.addObject(box)
-    characterController.eventBus.subscribe('onTriggerEnter', (obj) => {
-        if (box === obj) box.material.color = new THREE.Color(0xff00000)
+    characterController.collisionWith(box)
+    characterController.onTriggerEnter(box, ()=>{
+        box.material.color = new THREE.Color(0xff00000)
     })
-    characterController.eventBus.subscribe('onTriggerExit', (obj) => {
-        if (box === obj) box.material.color = new THREE.Color(0xffff00)
+    characterController.onTriggerExit(box, ()=>{
+        box.material.color = new THREE.Color(0xffff00)
     })
 })
 keyListener.setCaster((data)=>{

@@ -3,6 +3,10 @@ import scene from "../Scene.js";
 class CollisionController {
     setPlayer(player) {
         this.player = player
+        this.player.onTriggerEnter = this.onTriggerEnter.bind(this)
+        this.player.onTriggerExit = this.onTriggerExit.bind(this)
+        this.player.collisionWith = this.addObject.bind(this)
+        this.player.collisionWithUndo = this.removeObject.bind(this)
         this.position = null
         this.size = new THREE.Vector3(.25, 1.6, .25)
         this.boxWraper = new THREE.Box3();
@@ -61,6 +65,16 @@ class CollisionController {
     }
     jumping(isJumping) {
         if (isJumping) this.delay()
+    }
+    onTriggerEnter(obj, callback){
+        this.player.eventBus.subscribe('onTriggerEnter', (innerObj) => {
+            if (obj === innerObj) callback()
+        })
+    }
+    onTriggerExit(obj, callback){
+        this.player.eventBus.subscribe('onTriggerExit', (innerObj) => {
+            if (obj === innerObj) callback()
+        })
     }
     start() {
         scene.add(this.helper);
