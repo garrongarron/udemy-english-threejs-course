@@ -12,14 +12,17 @@ class DisplacementController {
     }
     run() {
         const delta = this.clock.getDelta();
-        if (this.player.x == 0 && this.player.y == 0 || this.isJumping)
-            this.timer = new Date().getTime()
+        this.resetTimer()
         if (this.isJumping) return
         if (this.timer + 200 > new Date().getTime()) return
         // this.v2.set(-this.player.x, this.player.y).normalize()
         this.v2.set(Math.sin(this.player.mesh.rotation.y), Math.cos(this.player.mesh.rotation.y))
         this.player.mesh.position.x += this.v2.x * this.speed * delta
         this.player.mesh.position.z += this.v2.y * this.speed * delta
+    }
+    resetTimer(){
+        if (this.player.x == 0 && this.player.y == 0 || this.isJumping)
+            this.timer = new Date().getTime()
     }
     keyListener(data) {
         if (data[0] == 16) {//shift

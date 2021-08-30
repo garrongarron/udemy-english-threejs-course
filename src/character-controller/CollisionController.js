@@ -8,8 +8,6 @@ class CollisionController {
         this.boxWraper = new THREE.Box3();
         this.meshWraper = new THREE.Box3();
         this.helper = new THREE.Box3Helper(this.meshWraper, 0xffff00);
-        this.isColliding = false
-        this.isJumping = false
         this.flag = false
         this.objectList = {}
         this.player.collision = this
@@ -32,6 +30,7 @@ class CollisionController {
         this.validate()
     }
     validate() {
+        //identify closer elements
         if (this.timeToChekIfNear < new Date().getTime()) {
             this.timeToChekIfNear = new Date().getTime() + this.intervalTime * 1000 + 1 * Math.random() * 1000
             this.validateFlag = false
@@ -40,28 +39,28 @@ class CollisionController {
                 if (element.isNear) this.validateFlag = true
             })
         }
-        if(!this.validateFlag) return
+        if(!this.validateFlag) return// no elements around
         Object.values(this.objectList).forEach(element => {
-            if (!element.isNear) return
+            if (!element.isNear) return // only near elements
             let obj = element.obj
             this.boxWraper.setFromObject(obj)
-            let collide = this.meshWraper.intersectsBox(this.boxWraper)
-            if (!this.objectList[obj.uuid].status && collide) {
+            //handling collisions
+            let collided = this.meshWraper.intersectsBox(this.boxWraper)
+            if (!this.objectList[obj.uuid].status && collided) {
                 this.player.eventBus.dispatch('onTriggerEnter', obj)
             }
-            if (this.objectList[obj.uuid].status && !collide) {
+            if (this.objectList[obj.uuid].status && !collided) {
                 this.player.eventBus.dispatch('onTriggerExit', obj)
             }
-            this.objectList[obj.uuid].status = collide
+            this.objectList[obj.uuid].status = collided
         })
     }
     delay() {
         setTimeout(() => { this.flag = true }, 800);
         setTimeout(() => { this.flag = false }, 1000);
     }
-    jumping(flag) {
-        this.jumping = flag
-        if (flag) this.delay()
+    jumping(isJumping) {
+        if (isJumping) this.delay()
     }
     start() {
         scene.add(this.helper);

@@ -34,9 +34,8 @@ Xbot.then(mesh => {
         if (box === obj) box.material.color = new THREE.Color(0xffff00)
     })
 })
-function dispatchKeys(data) {
+keyListener.setCaster((data)=>{
     eventBus.dispatch('keyListener', data)
-}
-keyListener.setCaster(dispatchKeys)
+})
 keyListener.start()
 machine.start()
