@@ -1,3 +1,4 @@
+import eventBus from "../EventBus.js"
 import keyListener from "../KeyListener.js"
 
 class InputController {
@@ -19,11 +20,17 @@ class InputController {
     jumping(flag) {
         this.isJumping = flag
     }
+    dispatchKeys(data) {
+        this.player.eventBus.dispatch('keyListener', data)
+    }
+    
     start() {
         this.player.eventBus.subscribe('jumping', this.jumping.bind(this))
+        eventBus.subscribe('keyListener', this.dispatchKeys.bind(this))
     }
     stop(){
         this.player.eventBus.unSubscribe('jumping', this.jumping.bind(this))
+        eventBus.unSubscribe('keyListener', this.dispatchKeys.bind(this))
     }
 }
 

@@ -1,5 +1,3 @@
-
-import eventBus from "../EventBus.js"
 import keyListener from "../KeyListener.js"
 import AnimatorModeAdapter from "./AnimatorModeAdapter.js"
 
@@ -28,17 +26,17 @@ class AnimationController {
         this.player.eventBus.dispatch('jumping', flag)
     }
     keyListener(data) {
-        if (data[0] == 16) {
+        if (data[0] == 16) {//shift
             this.animatorAdapter.setMode((data[1]) ? 'run' : 'normal')
         }
     }
     start() {
         this.animatorAdapter.start()
-        eventBus.subscribe('keyListener', this.keyListener.bind(this))
+        this.player.eventBus.subscribe('keyListener', this.keyListener.bind(this))
     }
     stop() {
         this.animatorAdapter.stop()
-        eventBus.unSubscribe('keyListener', this.keyListener.bind(this))
+        this.player.eventBus.unSubscribe('keyListener', this.keyListener.bind(this))
     }
 }
 export default AnimationController

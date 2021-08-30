@@ -16,12 +16,13 @@ class DisplacementController {
             this.timer = new Date().getTime()
         if (this.isJumping) return
         if (this.timer + 200 > new Date().getTime()) return
-        this.v2.set(-this.player.x, this.player.y).normalize()
+        // this.v2.set(-this.player.x, this.player.y).normalize()
+        this.v2.set(Math.sin(this.player.mesh.rotation.y), Math.cos(this.player.mesh.rotation.y))
         this.player.mesh.position.x += this.v2.x * this.speed * delta
         this.player.mesh.position.z += this.v2.y * this.speed * delta
     }
     keyListener(data) {
-        if (data[0] == 16) {
+        if (data[0] == 16) {//shift
             this.speed = (data[1]) ? this.speedReference * 2 : this.speedReference
         }
     }

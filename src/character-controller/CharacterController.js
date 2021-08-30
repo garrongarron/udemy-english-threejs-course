@@ -30,10 +30,10 @@ class CharacterController {
         if (this.flag) return
         this.flag = true
         this.components.forEach(component => {
-            // console.log(component.constructor.name, 'setPlayer');
             component.setPlayer(this)
+        })
+        this.components.forEach(component => {
             if (component.start){
-                // console.log(component.constructor.name, 'start');
                 component.start()
             } 
         })
