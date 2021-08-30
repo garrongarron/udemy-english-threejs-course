@@ -27,14 +27,14 @@ Xbot.then(mesh => {
     characterController = new CharacterController(mesh)
     characterController.start()
     characterController.collisionWith(box)
-    characterController.onTriggerEnter(box, ()=>{
-        box.material.color = new THREE.Color(0xff00000)
+    characterController.onTriggerEnter(box, () => {
+        box.material.color = new THREE.Color(0xff00000)//RED
     })
-    characterController.onTriggerExit(box, ()=>{
-        box.material.color = new THREE.Color(0xffff00)
+    characterController.onTriggerExit(box, () => {
+        box.material.color = new THREE.Color(0xffff00)//YELLOW  
     })
 })
-keyListener.setCaster((data)=>{
+keyListener.setCaster((data) => {
     eventBus.dispatch('keyListener', data)
 })
 keyListener.start()

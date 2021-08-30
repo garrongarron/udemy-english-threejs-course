@@ -23,7 +23,7 @@ class AnimationController {
         }
     }
     jumping(flag){
-        this.player.eventBus.dispatch('jumping', flag)
+        this.player.eventBus.dispatch('jumping', flag)//to everyone
     }
     keyListener(data) {
         if (data[0] == 16) {//shift

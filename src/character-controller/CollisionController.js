@@ -3,25 +3,25 @@ import scene from "../Scene.js";
 class CollisionController {
     setPlayer(player) {
         this.player = player
-        this.player.onTriggerEnter = this.onTriggerEnter.bind(this)
-        this.player.onTriggerExit = this.onTriggerExit.bind(this)
-        this.player.collisionWith = this.addObject.bind(this)
-        this.player.collisionWithUndo = this.removeObject.bind(this)
+        this.player.onTriggerEnter = this.onTriggerEnter.bind(this)//alias
+        this.player.onTriggerExit = this.onTriggerExit.bind(this)//alias
+        this.player.collisionWith = this.addObject.bind(this)//alias
+        this.player.collisionWithUndo = this.removeObject.bind(this)//alias
         this.position = null
         this.size = new THREE.Vector3(.25, 1.6, .25)
-        this.boxWraper = new THREE.Box3();
+        this.objectWraper = new THREE.Box3();
         this.meshWraper = new THREE.Box3();
         this.helper = new THREE.Box3Helper(this.meshWraper, 0xffff00);
         this.flag = false
         this.objectList = {}
-        this.player.collision = this
-        this.timeToChekIfNear = new Date().getTime()
-        this.intervalTime = 2
-        this.validateFlag = false
+        this.timeToChekIfNear = new Date().getTime() //optimisation purposes
+        this.intervalTime = 2 //optimisation purposes
+        this.validateFlag = false //optimisation purposes
     }
     addObject(obj, radio = 3) {
-        let status = false
-        let isNear = false
+        let status = false // no collision
+        let isNear = false // it is not near to the player
+        // the radio is the distance to consider one object near enough
         this.objectList[obj.uuid] = { obj, status, isNear, radio }
     }
     removeObject(obj) {
@@ -29,7 +29,7 @@ class CollisionController {
     }
     run() {
         this.position = this.player.mesh.position.clone()
-        this.position.y += (this.flag) ? 1.2 : .8
+        this.position.y += (this.flag) ? 1.2 : .8 // when the player is jumpling
         this.meshWraper.setFromCenterAndSize(this.position, this.size)
         this.validate()
     }
@@ -47,9 +47,9 @@ class CollisionController {
         Object.values(this.objectList).forEach(element => {
             if (!element.isNear) return // only near elements
             let obj = element.obj
-            this.boxWraper.setFromObject(obj)
+            this.objectWraper.setFromObject(obj)
             //handling collisions
-            let collided = this.meshWraper.intersectsBox(this.boxWraper)
+            let collided = this.meshWraper.intersectsBox(this.objectWraper)
             if (!this.objectList[obj.uuid].status && collided) {
                 this.player.eventBus.dispatch('onTriggerEnter', obj)
             }

@@ -6,8 +6,8 @@ class CameraController {
         this.player.camera = this
         this.target = new THREE.Vector3()
         this.types = {
-            battle: this.battle.bind(this),
-            dialog: this.dialog.bind(this),
+            battle: this.battle.bind(this),//far
+            dialog: this.dialog.bind(this),//near
         }
         this.type = this.types.battle
         this.flag = false
@@ -27,14 +27,13 @@ class CameraController {
         camera.position.y = this.player.mesh.position.y + 5
         this.target.set(this.player.mesh.position.x, this.player.mesh.position.y + 1, this.player.mesh.position.z)
         camera.lookAt(this.target)
-    }d
+    }
     dialog() {
         camera.position.x = this.player.mesh.position.x -1
         camera.position.z = this.player.mesh.position.z - 1.5
         camera.position.y = this.player.mesh.position.y + 1.8
         this.target.set(this.player.mesh.position.x -1, this.player.mesh.position.y + 1.5, this.player.mesh.position.z)
         camera.lookAt(this.target)
-        // camera.rotation.y += .5
     }
     start() {
         this.player.eventBus.subscribe('keyListener', this.swticher.bind(this))
