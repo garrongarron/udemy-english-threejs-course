@@ -8,16 +8,14 @@ class DisplacementController {
         this.speed = this.speedReference
         this.clock = new THREE.Clock();
         this.timer = new Date().getTime()
+        this.isJumping = false
     }
     run() {
         const delta = this.clock.getDelta();
-        if (this.player.x == 0 && this.player.y == 0)
+        if (this.player.x == 0 && this.player.y == 0 || this.isJumping)
             this.timer = new Date().getTime()
-        if (this.player.isJumping) {
-            this.timer = new Date().getTime()
-            return
-        }
-        if(this.timer +200 > new Date().getTime()) return
+        if (this.isJumping) return
+        if (this.timer + 200 > new Date().getTime()) return
         this.v2.set(-this.player.x, this.player.y).normalize()
         this.player.mesh.position.x += this.v2.x * this.speed * delta
         this.player.mesh.position.z += this.v2.y * this.speed * delta
@@ -27,8 +25,12 @@ class DisplacementController {
             this.speed = (data[1]) ? this.speedReference * 2 : this.speedReference
         }
     }
+    jumping(flag) {
+        this.isJumping = flag
+    }
     start() {
         eventBus.subscribe('keyListener', this.keyListener.bind(this))
+        this.player.eventBus.subscribe('jumping', this.jumping.bind(this))
     }
     stop() {
         eventBus.unSubscribe('keyListener', this.keyListener.bind(this))
