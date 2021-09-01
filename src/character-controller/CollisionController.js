@@ -25,7 +25,7 @@ class CollisionController {
         this.objectList[obj.uuid] = { obj, status, isNear, radio }
     }
     removeObject(obj) {
-        this.objectList = this.objectList.filter(o => o != obj)
+        delete this.objectList[obj.uuid]
     }
     run() {
         this.position = this.player.mesh.position.clone()
@@ -43,20 +43,20 @@ class CollisionController {
                 if (element.isNear) this.validateFlag = true
             })
         }
-        if(!this.validateFlag) return// no elements around
+        if (!this.validateFlag) return// no elements around
         Object.values(this.objectList).forEach(element => {
             if (!element.isNear) return // only near elements
             let obj = element.obj
             this.objectWraper.setFromObject(obj)
             //handling collisions
             let collided = this.meshWraper.intersectsBox(this.objectWraper)
-            if (!this.objectList[obj.uuid].status && collided) {
+            if (obj.uuid in this.objectList && !this.objectList[obj.uuid].status && collided) {
                 this.player.eventBus.dispatch('onTriggerEnter', obj)
             }
-            if (this.objectList[obj.uuid].status && !collided) {
+            if (obj.uuid in this.objectList && this.objectList[obj.uuid].status && !collided) {
                 this.player.eventBus.dispatch('onTriggerExit', obj)
             }
-            this.objectList[obj.uuid].status = collided
+            if (obj.uuid in this.objectList) this.objectList[obj.uuid].status = collided
         })
     }
     delay() {
@@ -66,18 +66,18 @@ class CollisionController {
     jumping(isJumping) {
         if (isJumping) this.delay()
     }
-    onTriggerEnter(obj, callback){
+    onTriggerEnter(obj, callback) {
         this.player.eventBus.subscribe('onTriggerEnter', (innerObj) => {
             if (obj === innerObj) callback()
         })
     }
-    onTriggerExit(obj, callback){
+    onTriggerExit(obj, callback) {
         this.player.eventBus.subscribe('onTriggerExit', (innerObj) => {
             if (obj === innerObj) callback()
         })
     }
     start() {
-        scene.add(this.helper);
+        // scene.add(this.helper);
         this.player.eventBus.subscribe('jumping', this.jumping.bind(this))
     }
     stop() {

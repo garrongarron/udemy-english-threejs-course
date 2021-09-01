@@ -8,6 +8,7 @@ class AnimationController {
         this.isJumping = false
     }
     run() {
+        if(this.player.obtacle) return
         if(!this.animatorAdapter.animator.inProgress && this.isJumping){
             this.isJumping = false
             this.jumping(this.isJumping)

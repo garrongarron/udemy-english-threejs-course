@@ -6,6 +6,8 @@ import AnimationController from "./AnimationController.js"
 import RotationController from "./RotationController.js"
 import CollisionController from "./CollisionController.js"
 import { EventBus } from "../EventBus.js"
+import ShadowController from "./ShadowController.js"
+import RaycasterController from "./RaycasterController.js"
 
 class CharacterController {
     constructor(mesh) {
@@ -16,9 +18,11 @@ class CharacterController {
         this.components.push(new InputController())
         this.components.push(new AnimationController())
         this.components.push(new DisplacementController())
+        this.components.push(new RaycasterController())
         this.components.push(new RotationController())
         this.components.push(new CameraController())
         this.components.push(new CollisionController())
+        this.components.push(new ShadowController())
     }
     run() {
         if (!this.flag) return

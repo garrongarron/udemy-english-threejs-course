@@ -9,8 +9,8 @@ class RotationController {
     run() {
         this.rotation.x = THREE.MathUtils.lerp(this.rotation.x, -this.player.x, this.interpolation)
         this.rotation.y = THREE.MathUtils.lerp(this.rotation.y, this.player.y, this.interpolation)
-        //45 degrees to the left
-        this.player.mesh.rotation.y = this.v2.set(this.rotation.y, this.rotation.x).angle() + Math.PI * .25
+        //45 degrees to the left // not any more
+        this.player.mesh.rotation.y = this.v2.set(this.rotation.y, this.rotation.x).angle()// + Math.PI * .25
     }
 }
 

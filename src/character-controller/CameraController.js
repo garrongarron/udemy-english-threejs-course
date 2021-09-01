@@ -19,12 +19,13 @@ class CameraController {
         }
     }
     run() {
+        if(this.player.obtacle) return
         this.type()
     }
     battle() {
-        camera.position.x = this.player.mesh.position.x - 5
-        camera.position.z = this.player.mesh.position.z - 5
-        camera.position.y = this.player.mesh.position.y + 5
+        camera.position.x = this.player.mesh.position.x - 0
+        camera.position.z = this.player.mesh.position.z - 4
+        camera.position.y = this.player.mesh.position.y + 4
         this.target.set(this.player.mesh.position.x, this.player.mesh.position.y + 1, this.player.mesh.position.z)
         camera.lookAt(this.target)
     }
